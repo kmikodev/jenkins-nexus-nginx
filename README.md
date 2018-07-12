@@ -10,7 +10,7 @@
 
 ---
 <div style="text-align:center">
-    <img src="https://i.imgur.com/rzqo4Rp.png" style="max-width:40%;"/>
+    <img src="https://raw.githubusercontent.com/kmikodev/jenkins-nexus-nginx/master/readme_assets/devops_logo.png" style="max-width:40%;"/>
 </div>
 
 ### Introducción
