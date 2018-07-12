@@ -2,11 +2,10 @@
 ## Tabla de contenidos
 - Introducción
 - Servicios
-    - Jenkins
-    - Nexus
-    - Nginx
-    - Git (gogs)
-    - Problemas
+    - [Git (gogs)](https://github.com/kmikodev/jenkins-nexus-nginx#gogs)
+    - [Nexus](https://github.com/kmikodev/jenkins-nexus-nginx#nexus)
+    - [Jenkins](https://github.com/kmikodev/jenkins-nexus-nginx#jenkins)
+    - [Nginx](https://github.com/kmikodev/jenkins-nexus-nginx#nginx)
 
 ---
 <div style="text-align:center">
@@ -135,8 +134,6 @@ server {
 
 #### Jenkins
 
-### Jenkins
-
 ![Jenkins](https://raw.githubusercontent.com/kmikodev/jenkins-nexus-nginx/master//readme_assets/jenkins.png)
 
 Jenkins será una de las piezas claves de nuestro sistema de ALM, ya que será el encargado de escuchar los cambios en nuestro repositorio y ejecutar una serie de tareas.  
@@ -170,7 +167,7 @@ Durante el proceso de instalación nos pedirá un secret-key y procederemos con 
 
 
 #### Nginx
-![Nginx](http://git.blockchainsanlab.com/alm/infrastructure/raw/master/readme_assets/nginx.png)
+![Nginx](https://raw.githubusercontent.com/kmikodev/jenkins-nexus-nginx/master/readme_assets/nginx.png)
 
 Contenedor que se usará como punto de entrada para exponer los servicios al exterior. Desde aquí podemos exponer tanto por HTTP cómo por HTTPS.  
 
