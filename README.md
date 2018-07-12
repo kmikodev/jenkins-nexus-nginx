@@ -168,3 +168,84 @@ Durante el proceso de instalación nos pedirá un secret-key y procederemos con 
 
 ![Slack](https://raw.githubusercontent.com/kmikodev/jenkins-nexus-nginx/master//readme_assets/slack-jenkins.png)
 
+
+#### Nginx
+![Nginx](http://git.blockchainsanlab.com/alm/infrastructure/raw/master/readme_assets/nginx.png)
+
+Contenedor que se usará como punto de entrada para exponer los servicios al exterior. Desde aquí podemos exponer tanto por HTTP cómo por HTTPS.  
+
+Dispone de los volumenes 
+- ./nginx/nginx.conf:/etc/nginx/nginx.conf
+- ./nginx/sites-enable:/etc/nginx/sites-enable
+- ./nginx/sites-ssl:/etc/ssl
+
+
+
+##### ./nginx/nginx.conf
+
+Archivo que usaremos para configurar el servicio que hay dentro del contenedor de nginx
+
+##### ./nginx/sites-enable
+
+Volumen en el que incluiremos los diferentes virtual host mediante ficheros tipo: 
+
+
+##### ./nginx/sites-ssl
+
+Volumen que usaremos para añadir los ficheros necesarios para usar los certificados.
+
+  - ¿Cómo generar un certificado autofirmado con openssl?
+
+  ```sh
+    $ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout cert.key -out cert.crt
+
+    $ sudo openssl dhparam -out dhparam.pem 2048
+  ```
+
+  - ¿Cómo añadir los certificados a un virtual host?
+
+  ```conf
+  server {
+    listen 443 http2 ssl;
+    listen [::]:443 http2 ssl;
+
+    server_name miweb.com;
+    // Ruta hasta el directorio donde está el certificado
+    ssl_certificate /etc/ssl/certs/cert.crt;
+    // Ruta hasta el directorio donde está el key
+    ssl_certificate_key /etc/ssl/private/cert.key;
+    // Ruta hasta el directorio donde está el dhparam.pem    
+    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+ 
+    ########################################################################
+    # from https://cipherli.st/                                            #
+    # and https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html #
+    ########################################################################
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
+    ssl_ecdh_curve secp384r1;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_tickets off;
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 8.8.8.8 8.8.4.4 valid=300s;
+    resolver_timeout 5s;
+    # Disable preloading HSTS for now.  You can use the commented out header line that includes
+    # the "preload" directive if you understand the implications.
+    #add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+    add_header Strict-Transport-Security "max-age=63072000; includeSubdomains";
+    add_header X-Frame-Options DENY;
+    add_header X-Content-Type-Options nosniff;
+
+    ##################################
+    # END https://cipherli.st/ BLOCK #
+    ##################################
+   
+    location / {
+      root   /usr/share/nginx/html/directorio_de_mi_web;
+      index  index.html index.htm;
+    }
+   }
+  ```
