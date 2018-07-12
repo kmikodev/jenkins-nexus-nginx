@@ -19,7 +19,7 @@ El objetivo de este repositorio es ejemplificar un entorno de **devops**  con el
 La estructura de nuestro ejercicio será el siguiente
 
 <div style="text-align:center">
-    <img src="https://raw.githubusercontent.com/kmikodev/jenkins-nexus-nginx/master/readme_assets/Mapa de flujo de valor.png" style="max-width:80%;"/>
+    <img src="https://raw.githubusercontent.com/kmikodev/jenkins-nexus-nginx/master/readme_assets/infrauml.png" style="max-width:80%;"/>
 </div>
 
 Se compone por un servidor **nginx** para que sirva los diferentes servicios y asi poder acceder a los mismos mediante el puerto 80 y/o 443. A parte también habrá 3 servicios que describiremos a continuación.
